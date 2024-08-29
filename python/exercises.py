@@ -72,6 +72,7 @@ def meaningful_line_count(my_file) -> Optional[int]:
             # Check if the line has non whitespace characters and doesn't start with a hashtag
             if line.strip() is not "" and line.strip()[0] is not "#":
                 good_lines += 1
+    file.close()
     return good_lines
 
 
