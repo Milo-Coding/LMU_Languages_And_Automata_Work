@@ -70,10 +70,75 @@ def meaningful_line_count(my_file) -> Optional[int]:
     with open(my_file, 'r', encoding='utf-8') as file:
         for line in file:
             # Check if the line has non whitespace characters and doesn't start with a hashtag
-            if line.strip() is not "" and line.strip()[0] is not "#":
+            if line.strip() != "" and line.strip()[0] != "#":
                 good_lines += 1
     file.close()
     return good_lines
 
 
-# Write your Quaternion class here
+class Quaternion:
+    # Setup the constructor
+    def __init__(self, a, b, c, d):
+        # List the variables indevidually
+        self.a = a
+        self.b = b
+        self.c = c
+        self.d = d
+
+        # Store our four variables together
+        self.coefficients = (self.a, self.b, self.c, self.d)
+
+        # Store our conjugate
+        self.conjugate = (self.a, -self.b, -self.c, -self.d)
+
+    def __str__(self) -> str: #TODO needs work
+        # Track all used varables in a string to return
+        quat_str = ""
+        # There will only ever be four vars to check so I'm just using if statements
+        # Quaternions don't list zeros so we only care about posative and negative values
+
+        if self.a != 0:
+            quat_str += f"{self.a}"
+
+        if self.b > 0:
+            quat_str += f"+{self.b}i"
+        elif self.b < 0:
+            quat_str += f"-{-self.b}i"
+
+        if self.c > 0:
+            quat_str += f"+{self.c}j"
+        elif self.c < 0:
+            quat_str += f"-{-self.c}j"
+
+        if self.d > 0:
+            quat_str += f"+{self.d}k"
+        elif self.d < 0:
+            quat_str += f"-{-self.d}k"
+        
+        return quat_str
+    
+    # Handle quaternion addition
+    def __add__(self, other: object) -> object:
+        if isinstance(other, Quaternion):
+            return Quaternion(self.a + other.a, self.b + other.b, self.c + other.c, self.d + other.d)
+        
+    # Handle quaternion multiplication (equations from https://en.wikipedia.org/wiki/Quaternion)
+    def __mul__(self, other: object) -> object:
+        if isinstance(other, Quaternion):
+            new_a = self.a * other.a + self.b * other.b + self.c * other.c + self.d * other.d
+            new_b = self.a * other.b + self.b * other.a + self.c * other.d + self.d * other.c
+            new_c = self.a * other.c + self.b * other.d + self.c * other.a + self.d * other.b
+            new_d = self.a * other.d + self.b * other.c + self.c * other.b + self.d * other.a
+            return Quaternion(new_a, new_b, new_c, new_d)
+        
+    def __eq__(self, other: object) -> bool: #TODO needs work
+        # If both are given as a quaternion
+        if isinstance(self, Quaternion) and isinstance(other, Quaternion):
+            return self.coefficients == other.coefficients
+        # If the other is given directly as a coefficient/conjugate
+        elif isinstance(self, Quaternion):
+            return self.coefficients == other
+        # If self is given directly
+        elif isinstance(self, Quaternion):
+            return self == other.coefficients
+        return False
