@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from collections.abc import Callable
+from typing import *  # just to help me set up the functions more clearly
 
 
 def change(amount: int) -> dict[int, int]:
@@ -13,10 +14,30 @@ def change(amount: int) -> dict[int, int]:
     return counts
 
 
-# Write your first then lower case function here
+def first_then_lower_case(list_of_strings: list[str], predicate) -> Optional[str]:
+    # I cannot define predicate as a function (predicate: function) because python gives an error stating that an unknown function cannot be called
+    # Check each string in the list in order
+    for current_string in list_of_strings:
+        # If it satisfies the predicate, return that string
+        if predicate(current_string):
+            return current_string.lower()
+    # If no strings satisfy the predicate return None
+    return None
 
 
-# Write your powers generator here
+def powers_generator(base: int, limit: int) -> Generator:
+    # Our starting power is zero
+    current_power = 0
+    # Any number to the power of zero is one so our starting number is one
+    current_num = 1
+    # Keep iterating until we reach our limit
+    while current_num <= limit:
+        # yield returns a value then pauses until the function is called again
+        yield current_num
+        # Once the code is called again we pick up here and increment our power, increasing the current number
+        current_power += 1
+        current_num = base ** current_power
+    # Once we reach the end of the function a StopIterating error is raised
 
 
 # Write your say function here
