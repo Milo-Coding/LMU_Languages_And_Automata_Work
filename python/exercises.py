@@ -90,32 +90,6 @@ class Quaternion:
 
         # Store our conjugate
         self.conjugate = (self.a, -self.b, -self.c, -self.d)
-
-    def __str__(self) -> str: #TODO needs work
-        # Track all used varables in a string to return
-        quat_str = ""
-        # There will only ever be four vars to check so I'm just using if statements
-        # Quaternions don't list zeros so we only care about posative and negative values
-
-        if self.a != 0:
-            quat_str += f"{self.a}"
-
-        if self.b > 0:
-            quat_str += f"+{self.b}i"
-        elif self.b < 0:
-            quat_str += f"-{-self.b}i"
-
-        if self.c > 0:
-            quat_str += f"+{self.c}j"
-        elif self.c < 0:
-            quat_str += f"-{-self.c}j"
-
-        if self.d > 0:
-            quat_str += f"+{self.d}k"
-        elif self.d < 0:
-            quat_str += f"-{-self.d}k"
-        
-        return quat_str
     
     # Handle quaternion addition
     def __add__(self, other: object) -> object:
@@ -125,20 +99,71 @@ class Quaternion:
     # Handle quaternion multiplication (equations from https://en.wikipedia.org/wiki/Quaternion)
     def __mul__(self, other: object) -> object:
         if isinstance(other, Quaternion):
-            new_a = self.a * other.a + self.b * other.b + self.c * other.c + self.d * other.d
-            new_b = self.a * other.b + self.b * other.a + self.c * other.d + self.d * other.c
-            new_c = self.a * other.c + self.b * other.d + self.c * other.a + self.d * other.b
-            new_d = self.a * other.d + self.b * other.c + self.c * other.b + self.d * other.a
+            new_a = self.a * other.a - self.b * other.b - self.c * other.c - self.d * other.d
+            new_b = self.a * other.b + self.b * other.a + self.c * other.d - self.d * other.c
+            new_c = self.a * other.c - self.b * other.d + self.c * other.a + self.d * other.b
+            new_d = self.a * other.d + self.b * other.c - self.c * other.b + self.d * other.a
             return Quaternion(new_a, new_b, new_c, new_d)
+    
+    # Handle checking for equivolance
+    def __eq__(self, other: object) -> bool:
+        # if the coefficents are equal than so are the quaternions
+        # if isinstance(self, Quaternion) and isinstance(other, Quaternion):
+        #     return self.coefficents == other.coefficients
         
-    def __eq__(self, other: object) -> bool: #TODO needs work
-        # If both are given as a quaternion
-        if isinstance(self, Quaternion) and isinstance(other, Quaternion):
-            return self.coefficients == other.coefficients
-        # If the other is given directly as a coefficient/conjugate
-        elif isinstance(self, Quaternion):
-            return self.coefficients == other
-        # If self is given directly
-        elif isinstance(self, Quaternion):
-            return self == other.coefficients
-        return False
+        # To handle quaternion objects being checked against coefficients and conjugatuons, convert to tuples
+        if isinstance(self, Quaternion):
+            self = self.coefficients
+        if isinstance(other, Quaternion):
+            other = other.coefficients
+        return self == other
+    
+    # Convert quaternion into a string in the format a+bi+cj+dk
+    # Additional format stuff: Only display non-zero values. Don't print out value of one. Subtract instead of adding negative numbers. If all zeros, return "0"
+    def __str__(self) -> str:
+        # edge case: all zeros
+        if self.coefficients == (0, 0, 0, 0):
+            return "0"
+        
+        # Track all used varables in a string to return
+        quat_str = ""
+        
+        # A - if there is a non-zero value add it to the string
+        if self.a != 0:
+            quat_str += f"{self.a}"
+
+        # B - if there is a value of one, add "i" to the string, otherwise, add any non-zero value with "i" and the appropriate sign
+        if self.b != 0:
+            if quat_str and self.b > 0:
+                quat_str += "+"  # only the "+" needs to be added explicitly because the "-" is included in negative numbers
+            if self.b == 1:
+                quat_str += "i"
+            elif self.b == -1:
+                quat_str += "-i"
+            else:
+                quat_str += f"{self.b}i"
+
+        # C - if there is a value of one, add "j" to the string, otherwise, add any non-zero value with "j" and the appropriate sign
+        if self.c != 0:
+            if quat_str and self.c > 0:
+                quat_str += "+"  # only the "+" needs to be added explicitly because the "-" is included in negative numbers
+            if self.c == 1:
+                quat_str += "j"
+            elif self.c == -1:
+                quat_str += "-j"
+            else:
+               quat_str += f"{self.c}j"
+
+        # D - if there is a value of one, add "k" to the string, otherwise, add any non-zero value with "k" and the appropriate sign
+        if self.d != 0:
+            if quat_str and self.d > 0:
+                quat_str += "+"  # only the "+" needs to be added explicitly because the "-" is included in negative numbers
+            if self.d == 1:
+                quat_str += "k"
+            elif self.d == -1:
+                quat_str += "-k"
+            else:
+                quat_str += f"{self.d}k"
+
+        # return the compleated text
+        return quat_str
