@@ -99,6 +99,7 @@ class Quaternion:
     def __add__(self, other: object) -> object:
         if isinstance(other, Quaternion):
             return Quaternion(self.a + other.a, self.b + other.b, self.c + other.c, self.d + other.d)
+        return None  # If the other value is not a quaternion, cannot do quaternion addition
         
     # Handle quaternion multiplication (equations from https://en.wikipedia.org/wiki/Quaternion)
     def __mul__(self, other: object) -> object:
@@ -108,12 +109,14 @@ class Quaternion:
             new_c = self.a * other.c - self.b * other.d + self.c * other.a + self.d * other.b
             new_d = self.a * other.d + self.b * other.c - self.c * other.b + self.d * other.a
             return Quaternion(new_a, new_b, new_c, new_d)
+        return None  # If the other value is not a quaternion, cannot do quaternion multiplication
     
     # Handle checking for equivolance
     def __eq__(self, other: object) -> bool:
         # if the coefficents are equal than so are the quaternions
         if isinstance(self, Quaternion) and isinstance(other, Quaternion):
             return self.coefficients == other.coefficients
+        return False
     
     # Convert quaternion into a string in the format a+bi+cj+dk
     # Additional format stuff: Only display non-zero values. Don't print out value of one. Subtract instead of adding negative numbers. If all zeros, return "0"
