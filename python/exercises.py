@@ -85,11 +85,15 @@ class Quaternion:
         self.c = c
         self.d = d
 
-        # Store our four variables together
-        self.coefficients = (self.a, self.b, self.c, self.d)
+    # Store our four variables together
+    @property
+    def coefficients(self) -> tuple:
+        return (self.a, self.b, self.c, self.d)
 
-        # Store our conjugate
-        self.conjugate = (self.a, -self.b, -self.c, -self.d)
+    # Store our conjugate
+    @property
+    def conjugate(self) -> object:
+        return Quaternion(self.a, -self.b, -self.c, -self.d)
     
     # Handle quaternion addition
     def __add__(self, other: object) -> object:
@@ -108,15 +112,8 @@ class Quaternion:
     # Handle checking for equivolance
     def __eq__(self, other: object) -> bool:
         # if the coefficents are equal than so are the quaternions
-        # if isinstance(self, Quaternion) and isinstance(other, Quaternion):
-        #     return self.coefficents == other.coefficients
-        
-        # To handle quaternion objects being checked against coefficients and conjugatuons, convert to tuples
-        if isinstance(self, Quaternion):
-            self = self.coefficients
-        if isinstance(other, Quaternion):
-            other = other.coefficients
-        return self == other
+        if isinstance(self, Quaternion) and isinstance(other, Quaternion):
+            return self.coefficients == other.coefficients
     
     # Convert quaternion into a string in the format a+bi+cj+dk
     # Additional format stuff: Only display non-zero values. Don't print out value of one. Subtract instead of adding negative numbers. If all zeros, return "0"
