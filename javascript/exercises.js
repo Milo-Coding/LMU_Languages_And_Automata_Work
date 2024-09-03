@@ -36,10 +36,35 @@ export function* powersGenerator({ofBase, upTo}) {
   }
 }
 
-export function say() {
-  return
+export function say(word) {
+  // set up a variable to store all our words
+  let sentence = []
+
+  // nested function to handle chained arguments
+  function inner(word) {
+    // add the words to the sentance if there are any left
+    if(word != undefined) {
+      sentence.push(word)
+      // check for more words
+      return inner
+    }
+    // if there are no words left to add, return our whole sentence
+    return sentence.join(" ")
+  }
+
+  // if we have at least one word, start adding words to the sentance
+  if(word != undefined) {
+    sentence.push(word)
+    // check for more words
+    return inner
+  }
+
+  // if there were no words just return an empty string
+  return ""
 }
 
-// Write your line count function here
+export async function meaningfulLineCount(file) {
+  
+}
 
 // Write your Quaternion class here
