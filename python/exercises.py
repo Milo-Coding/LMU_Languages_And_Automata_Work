@@ -26,17 +26,13 @@ def first_then_lower_case(list_of_strings: list[str], predicate) -> Optional[str
 
 
 def powers_generator(base: int, limit: int) -> Generator:
-    # Our starting power is zero
-    current_power = 0
-    # Any number to the power of zero is one so our starting number is one
-    current_num = 1
+    current_num = 1 # Any number to the power of zero (our starting power) is one so our starting number is one
     # Keep iterating until we reach our limit
     while current_num <= limit:
         # yield returns a value then pauses until the function is called again
         yield current_num
         # Once the code is called again we pick up here and increment our power, increasing the current number
-        current_power += 1
-        current_num = base ** current_power
+        current_num = current_num * base
     # Once we reach the end of the function a StopIterating error is raised
 
 
