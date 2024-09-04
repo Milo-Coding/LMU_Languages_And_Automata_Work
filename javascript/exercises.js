@@ -63,8 +63,36 @@ export function say(word) {
   return ""
 }
 
-export async function meaningfulLineCount(file) {
-  
+export async function meaningfulLineCount(filePath) {
+  // count the lines that have text and don't start with a #
+  let lineCount = 0
+
+  // open the file
+  const file = await open(filePath, 'r');
+
+  // read the file content
+  const data = await file.readFile({ encoding: 'utf-8' });
+
+  // Split the file content into lines and filter out empty lines becasue we can
+  const lines = data.split('\n').filter(line => line.trim());
+
+  // count all the lines that don't start with a #
+  lines.forEach((line) => {
+    if (line.trim()[0] != "#") {
+      lineCount++
+    }
+  })
+
+  // ensure the file is closed if it was opened
+  if (file) {
+    await file.close();
+  }
+
+  // return the count of non-empty, non-# lines  
+  return lineCount
 }
 
 // Write your Quaternion class here
+export class Quaternion {
+  
+}
