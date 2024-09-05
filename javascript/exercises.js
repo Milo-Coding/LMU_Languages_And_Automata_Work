@@ -31,6 +31,7 @@ export function* powersGenerator({ofBase, upTo}) {
   // starting base and corrosponding number
   let currentNum = 1  // any base to the power of 0 is 1
   while(currentNum <= upTo){
+    // yield the current power then move on to the next power
     yield currentNum
     currentNum *= ofBase
   }
