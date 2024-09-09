@@ -26,13 +26,13 @@ def first_then_lower_case(list_of_strings: list[str], predicate) -> Optional[str
 
 
 def powers_generator(base: int, limit: int) -> Generator:
-    current_num = 1 # Any number to the power of zero (our starting power) is one so our starting number is one
+    power = 1 # Any number to the power of zero (our starting power) is one so our starting number is one
     # Keep iterating until we reach our limit
-    while current_num <= limit:
+    while power <= limit:
         # yield returns a value then pauses until the function is called again
-        yield current_num
+        yield power
         # Once the code is called again we pick up here and increment our power, increasing the current number
-        current_num = current_num * base
+        power = power * base
     # Once we reach the end of the function a StopIterating error is raised
 
 
@@ -61,15 +61,15 @@ def say(word: Optional[str] = None):
 # No mypy type exists for files
 def meaningful_line_count(my_file) -> Optional[int]:
     # Somewhere to count meaningul lines
-    good_lines = 0
+    line_count = 0
     # Start checking lines in the file one at a time. The encoding part is needed to recognize emojis as defined characters
     with open(my_file, 'r', encoding='utf-8') as file:
         for line in file:
             # Check if the line has non whitespace characters and doesn't start with a hashtag
             if line.strip() != "" and line.strip()[0] != "#":
-                good_lines += 1
+                line_count += 1
     file.close()
-    return good_lines
+    return line_count
 
 
 class Quaternion:
@@ -122,44 +122,44 @@ class Quaternion:
             return "0"
         
         # Track all used varables in a string to return
-        quat_str = ""
+        result = ""
         
         # A - if there is a non-zero value add it to the string
         if self.a != 0:
-            quat_str += f"{self.a}"
+            result += f"{self.a}"
 
         # B - if there is a value of one, add "i" to the string, otherwise, add any non-zero value with "i" and the appropriate sign
         if self.b != 0:
-            if quat_str and self.b > 0:
-                quat_str += "+"  # only the "+" needs to be added explicitly because the "-" is included in negative numbers
+            if result and self.b > 0:
+                result += "+"  # only the "+" needs to be added explicitly because the "-" is included in negative numbers
             if self.b == 1:
-                quat_str += "i"
+                result += "i"
             elif self.b == -1:
-                quat_str += "-i"
+                result += "-i"
             else:
-                quat_str += f"{self.b}i"
+                result += f"{self.b}i"
 
         # C - if there is a value of one, add "j" to the string, otherwise, add any non-zero value with "j" and the appropriate sign
         if self.c != 0:
-            if quat_str and self.c > 0:
-                quat_str += "+"  # only the "+" needs to be added explicitly because the "-" is included in negative numbers
+            if result and self.c > 0:
+                result += "+"  # only the "+" needs to be added explicitly because the "-" is included in negative numbers
             if self.c == 1:
-                quat_str += "j"
+                result += "j"
             elif self.c == -1:
-                quat_str += "-j"
+                result += "-j"
             else:
-               quat_str += f"{self.c}j"
+               result += f"{self.c}j"
 
         # D - if there is a value of one, add "k" to the string, otherwise, add any non-zero value with "k" and the appropriate sign
         if self.d != 0:
-            if quat_str and self.d > 0:
-                quat_str += "+"  # only the "+" needs to be added explicitly because the "-" is included in negative numbers
+            if result and self.d > 0:
+                result += "+"  # only the "+" needs to be added explicitly because the "-" is included in negative numbers
             if self.d == 1:
-                quat_str += "k"
+                result += "k"
             elif self.d == -1:
-                quat_str += "-k"
+                result += "-k"
             else:
-                quat_str += f"{self.d}k"
+                result += f"{self.d}k"
 
         # return the compleated text
-        return quat_str
+        return result

@@ -15,9 +15,11 @@ export function change(amount) {
   return counts
 }
 
+// TODO use search
 export function firstThenLowerCase(listOfStrings, predicate) {
-  // Check each string in the list of strings if it can be looped through, otherwise skip 
-  for (let i = 0; i < listOfStrings?.length; i++) {  // the chaining operator ? checks if listOfStrings has a .length property and if so allows the loop, otherwise skips
+  // Check each string in the list of strings if it can be looped through, otherwise skip
+  for (let i = 0; i < listOfStrings?.length; i++) {
+    // the chaining operator ? checks if listOfStrings has a .length property and if so allows the loop, otherwise skips
     // If it (as a lowercase) satisfies the predicate, return that string
     if (predicate(listOfStrings[i].toLowerCase())) {
       return listOfStrings[i].toLowerCase()
@@ -27,13 +29,13 @@ export function firstThenLowerCase(listOfStrings, predicate) {
   return undefined
 }
 
-export function* powersGenerator({ofBase, upTo}) {
+export function* powersGenerator({ ofBase: base, upTo: limit }) {
   // starting base and corrosponding number
-  let currentNum = 1  // any base to the power of 0 is 1
-  while(currentNum <= upTo){
+  let power = 1 // any base to the power of 0 is 1
+  while (power <= limit) {
     // yield the current power then move on to the next power
-    yield currentNum
-    currentNum *= ofBase
+    yield power
+    power *= base
   }
 }
 
@@ -44,7 +46,7 @@ export function say(word) {
   // nested function to handle chained arguments
   function inner(word) {
     // add the words to the sentance if there are any left
-    if(word != undefined) {
+    if (word != undefined) {
       sentence.push(word)
       // check for more words
       return inner
@@ -54,7 +56,7 @@ export function say(word) {
   }
 
   // if we have at least one word, start adding words to the sentance
-  if(word != undefined) {
+  if (word != undefined) {
     sentence.push(word)
     // check for more words
     return inner
@@ -69,13 +71,13 @@ export async function meaningfulLineCount(filePath) {
   let lineCount = 0
 
   // open the file
-  const file = await open(filePath, 'r');
+  const file = await open(filePath, "r")
 
   // read the file content
-  const data = await file.readFile({ encoding: 'utf-8' });
+  const data = await file.readFile({ encoding: "utf-8" })
 
   // Split the file content into lines and filter out empty lines becasue we can
-  const lines = data.split('\n').filter(line => line.trim());
+  const lines = data.split("\n").filter((line) => line.trim())
 
   // count all the lines that don't start with a #
   lines.forEach((line) => {
@@ -86,10 +88,10 @@ export async function meaningfulLineCount(filePath) {
 
   // ensure the file is closed if it was opened
   if (file) {
-    await file.close();
+    await file.close()
   }
 
-  // return the count of non-empty, non-# lines  
+  // return the count of non-empty, non-# lines
   return lineCount
 }
 
@@ -97,7 +99,7 @@ export async function meaningfulLineCount(filePath) {
 export class Quaternion {
   // setup and store our properties
   constructor(a, b, c, d) {
-    Object.assign(this, {a, b, c, d})
+    Object.assign(this, { a, b, c, d })
     // don't allow people to change the properties directly
     Object.freeze(this)
   }
@@ -113,82 +115,97 @@ export class Quaternion {
   }
 
   // lets us check if quaternions are equal
-  equals(that) {  // I am very funny
-    return (this.a === that.a && this.b === that.b && this.c === that.c && this.d === that.d)
+  equals(that) {
+    // I am very funny
+    return (
+      this.a === that.a &&
+      this.b === that.b &&
+      this.c === that.c &&
+      this.d === that.d
+    )
   }
 
   // handles addition
   plus(that) {
-    return new Quaternion (this.a + that.a, this.b + that.b, this.c + that.c, this.d + that.d)
+    return new Quaternion(
+      this.a + that.a,
+      this.b + that.b,
+      this.c + that.c,
+      this.d + that.d
+    )
   }
 
   // handles multiplication
   times(that) {
-    const a = this.a * that.a - this.b * that.b - this.c * that.c - this.d * that.d
-    const b = this.a * that.b + this.b * that.a + this.c * that.d - this.d * that.c
-    const c = this.a * that.c - this.b * that.d + this.c * that.a + this.d * that.b
-    const d = this.a * that.d + this.b * that.c - this.c * that.b + this.d * that.a
-    return new Quaternion (a, b, c, d)
+    const a =
+      this.a * that.a - this.b * that.b - this.c * that.c - this.d * that.d
+    const b =
+      this.a * that.b + this.b * that.a + this.c * that.d - this.d * that.c
+    const c =
+      this.a * that.c - this.b * that.d + this.c * that.a + this.d * that.b
+    const d =
+      this.a * that.d + this.b * that.c - this.c * that.b + this.d * that.a
+    return new Quaternion(a, b, c, d)
   }
 
   // Convert quaternion into a string in the format a+bi+cj+dk
   // Additional format stuff: Only display non-zero values. Don't print out value of one. Subtract instead of adding negative numbers. If all zeros, return "0"
   toString() {
     // Edge case: all zeros
-    if (this.coefficients == [0,0,0,0]) {
+    if (this.coefficients == [0, 0, 0, 0]) {
       return "0"
-    } 
+    }
 
     // store the string we will return
     let quatStr = ""
-    
+
     // A - if there is a non-zero value, add it to the string
     if (this.a !== 0) {
-      quatStr += `${this.a}`;
+      quatStr += `${this.a}`
     }
-  
+
     // B - handle the "i" component
     if (this.b !== 0) {
       if (quatStr && this.b > 0) {
-        quatStr += "+"; // only the "+" needs to be added explicitly because the "-" is included in negative numbers
+        quatStr += "+" // only the "+" needs to be added explicitly because the "-" is included in negative numbers
       }
-        if (this.b === 1) {
-          quatStr += "i";
-        } else if (this.b === -1) {
-          quatStr += "-i";
-        } else {
-          quatStr += `${this.b}i`;
-        }
+      if (this.b === 1) {
+        quatStr += "i"
+      } else if (this.b === -1) {
+        quatStr += "-i"
+      } else {
+        quatStr += `${this.b}i`
       }
-  
+    }
+
     // C - handle the "j" component
     if (this.c !== 0) {
       if (quatStr && this.c > 0) {
-        quatStr += "+"; // only the "+" needs to be added explicitly because the "-" is included in negative numbers
+        quatStr += "+" // only the "+" needs to be added explicitly because the "-" is included in negative numbers
       }
       if (this.c === 1) {
-        quatStr += "j";
+        quatStr += "j"
       } else if (this.c === -1) {
-        quatStr += "-j";
+        quatStr += "-j"
       } else {
-        quatStr += `${this.c}j`;
+        quatStr += `${this.c}j`
       }
     }
-  
+
     // D - handle the "k" component
     if (this.d !== 0) {
       if (quatStr && this.d > 0) {
-        quatStr += "+"; // only the "+" needs to be added explicitly because the "-" is included in negative numbers
+        quatStr += "+" // only the "+" needs to be added explicitly because the "-" is included in negative numbers
       }
       if (this.d === 1) {
-        quatStr += "k";
+        quatStr += "k"
       } else if (this.d === -1) {
-        quatStr += "-k";
+        quatStr += "-k"
       } else {
-        quatStr += `${this.d}k`;
+        quatStr += `${this.d}k`
       }
     }
-    
+
     // Edge case: all zeros
     if (quatStr == "") {
       return "0"

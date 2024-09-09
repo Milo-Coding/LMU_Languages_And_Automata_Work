@@ -33,12 +33,12 @@ end
 function powers_generator(of_base, up_to)
   return coroutine.create(function ()
     -- we start at power of 0 which means our first number is 1
-    local current_num = 1
+    local power = 1
     -- yield each power until we reach our limit
-    while (current_num <= up_to) do
-      coroutine.yield(current_num)
+    while (power <= up_to) do
+      coroutine.yield(power)
       -- increase our current power by one
-      current_num = current_num * of_base
+      power = power * of_base
     end
   end)
 end
@@ -61,7 +61,7 @@ end
 
 function meaningful_line_count(file_path)
   -- store the meaningful lines
-  local good_lines = 0
+  local line_count = 0
 
   -- find our file
   local file = io.open(file_path, 'r')
@@ -75,7 +75,7 @@ function meaningful_line_count(file_path)
   for line in file:lines() do
     line = line:gsub("%s+", "")
     if line ~= "" and string.sub(line, 1, 1) ~= "#" then
-      good_lines = good_lines + 1
+      line_count = line_count + 1
     end
   end
 
