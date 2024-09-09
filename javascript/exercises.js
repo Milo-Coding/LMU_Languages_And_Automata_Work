@@ -1,5 +1,4 @@
 import { open } from "node:fs/promises"
-import readline from "readline/promises"
 
 export function change(amount) {
   if (!Number.isInteger(amount)) {
