@@ -71,9 +71,11 @@ function meaningful_line_count(file_path)
     error("No such file")
   end
 
-  -- count the number of meaningul lines
+  -- for each line in our file
   for line in file:lines() do
+    -- trim the blank space
     line = line:gsub("%s+", "")
+    -- if the trimmed line isn't empty and doesn't start with a #, count it
     if line ~= "" and string.sub(line, 1, 1) ~= "#" then
       line_count = line_count + 1
     end
@@ -83,7 +85,7 @@ function meaningful_line_count(file_path)
   file:close()
 
   -- return the number of meaninful lines
-  return good_lines
+  return line_count
 end
 
 Quaternion = (function(class)
