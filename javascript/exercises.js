@@ -15,18 +15,12 @@ export function change(amount) {
   return counts
 }
 
-// TODO use search
 export function firstThenLowerCase(listOfStrings, predicate) {
-  // Check each string in the list of strings if it can be looped through, otherwise skip
-  for (let i = 0; i < listOfStrings?.length; i++) {
-    // the chaining operator ? checks if listOfStrings has a .length property and if so allows the loop, otherwise skips
-    // If it (as a lowercase) satisfies the predicate, return that string
-    if (predicate(listOfStrings[i].toLowerCase())) {
-      return listOfStrings[i].toLowerCase()
-    }
-  }
-  // If no strings satisfy the predicate, return undefined
-  return undefined
+  // Use find() to search for the first string that satisfies the predicate
+  const found = listOfStrings?.find((str) => predicate(str.toLowerCase()))
+
+  // Return the string in lowercase if found, otherwise return undefined
+  return found?.toLowerCase()
 }
 
 export function* powersGenerator({ ofBase: base, upTo: limit }) {
