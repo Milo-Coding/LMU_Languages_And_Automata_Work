@@ -43,14 +43,47 @@ function powers_generator(of_base, up_to)
   end)
 end
 
--- Write your say function here
-function say()
-
+function say(word)
+  -- check for edge case no value passed
+  if word == nil then
+    return ""
+  end
+  -- handle chained arguments
+  return function(next_word)
+    -- end sentance when we reach an empty argument
+    if next_word == nil then
+      return word
+    else
+      return say(word .. " " .. next_word)
+    end
+  end
 end
 
--- Write your line count function here
-function meaningful_line_count()
+function meaningful_line_count(file_path)
+  -- store the meaningful lines
+  local good_lines = 0
 
+  -- find our file
+  local file = io.open(file_path, 'r')
+
+  -- if no such file exists, raise an error
+  if file == nil then
+    error("No such file")
+  end
+
+  -- count the number of meaningul lines
+  for line in file:lines() do
+    line = line:gsub("%s+", "")
+    if line ~= "" and string.sub(line, 1, 1) ~= "#" then
+      good_lines = good_lines + 1
+    end
+  end
+
+  -- close our file
+  file:close()
+
+  -- return the number of meaninful lines
+  return good_lines
 end
 
 -- Write your Quaternion table here
