@@ -60,7 +60,7 @@ def say(word: Optional[str] = None):
 
 # No mypy type exists for files
 def meaningful_line_count(my_file) -> Optional[int]:
-    # Somewhere to count meaningul lines
+    # Somewhere to count meaningful lines
     line_count = 0
     # Start checking lines in the file one at a time. The encoding part is needed to recognize emojis as defined characters
     with open(my_file, 'r', encoding='utf-8') as file:
