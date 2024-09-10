@@ -30,15 +30,15 @@ function first_then_lower_case(list_of_strings, predicate)
   return nil
 end
 
-function powers_generator(of_base, up_to)
+function powers_generator(base, limit)
   return coroutine.create(function ()
     -- we start at power of 0 which means our first number is 1
     local power = 1
     -- yield each power until we reach our limit
-    while (power <= up_to) do
+    while (power <= limit) do
       coroutine.yield(power)
       -- increase our current power by one
-      power = power * of_base
+      power = power * base
     end
   end)
 end
