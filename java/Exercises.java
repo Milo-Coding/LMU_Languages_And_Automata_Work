@@ -28,7 +28,41 @@ public class Exercises {
         return strings.stream().filter(predicate).findFirst().map(String::toLowerCase);
     }
 
-    // Write your say function here
+    // the object that supports the say functions
+    public static class SayObject {
+        // This is is the string where we store everthing we will say. It is private so partial states aren't shared
+        private String phrase = "";
+
+        // This allows a SayObject to be created without any arguments
+        public SayObject() {
+            // default constructor
+        }
+
+        // This allows a SayObject to be created with an argument
+        public SayObject(String word) {
+            // the passed string becomes the word we will say when phrase() is called
+            phrase = word;
+        }
+
+        // handles chaining .and(word) to an existing SayObject
+        public SayObject and(String anotherWord) {
+            // to allow multiple .ands to be chained, return a new SayObject with an updated phrase
+            return new SayObject(phrase + " " + anotherWord);
+        }
+
+        // returns the whole phrase in the SayObject when called
+        String phrase(){  // not static becasue that's not how the tests call it
+            return phrase;
+        }
+    }
+
+    // the functions to create a SayObject and chain from
+    public static SayObject say() {
+        return new SayObject();  // creates an empty SayObject
+    }
+    public static SayObject say(String word) {
+        return new SayObject(word);  // craetes a SayObject with one word initialized as the phrase
+    }
 
     // Write your line count function here
 }
