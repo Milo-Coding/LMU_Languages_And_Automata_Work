@@ -99,12 +99,8 @@ public class Exercises {
 }
 
 // Write your Quaternion record class here
-class Quaternion {
-    // coefficients are final and private to make them immutable and invisible
-    final private double a;
-    final private double b;
-    final private double c;
-    final private double d;
+
+record Quaternion(double a, double b, double c, double d) {
 
     // static constant members
     static public Quaternion ZERO = new Quaternion(0, 0, 0, 0);
@@ -124,20 +120,6 @@ class Quaternion {
         this.b = b;
         this.c = c;
         this.d = d;
-    }
-
-    // getters for each of the coefficients
-    public Double a() {
-        return this.a;
-    }
-    public Double b() {
-        return this.b;
-    }
-    public Double c() {
-        return this.c;
-    }
-    public Double d() {
-        return this.d;
     }
 
     // getter for all the coefficients
