@@ -55,7 +55,6 @@ public class Exercises {
             return phrase;
         }
     }
-
     // the functions to create a SayObject and chain from
     public static SayObject say() {
         return new SayObject();  // creates an empty SayObject
@@ -64,7 +63,39 @@ public class Exercises {
         return new SayObject(word);  // craetes a SayObject with one word initialized as the phrase
     }
 
-    // Write your line count function here
+    static Integer meaningfulLineCount(String filePath)
+        // this handles file not found errors (note it is outside the function handling)
+        throws IOException
+    {
+        // a counter for our meaninful lines
+        var goodLines = 0;
+        
+        // first create a FileReader object
+        FileReader fr = new FileReader(filePath);
+        // the FileReader allows us to create a BufferedReader
+        BufferedReader br = new BufferedReader(fr);
+
+        // use try-with-resources to make sure the file gets closed at the end
+        try {
+            // count the number of lines that meet the conditions of a meaninful line
+            long count = br.lines().filter(line -> isMeaningfulLine(line)).count();
+            // convert to an int to match our return type
+            goodLines = (int) count;
+
+        // the finally gets run even if the try had an error
+        } finally {
+            // we close the file at the end
+            br.close();
+        }
+        return goodLines;
+    }
+    // helper function to check if a line is meaninful
+    static boolean isMeaningfulLine(String line) {
+        // strip the whitespace off the line
+        line = line.strip();
+        // if the stripped line isn't empty and doesn't start with a #, we can count it
+        return (line != "" && !line.substring(0, 1).equals("#"));
+    }
 }
 
 // Write your Quaternion record class here
