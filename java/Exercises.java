@@ -69,7 +69,7 @@ public class Exercises {
     {
         // a counter for our meaninful lines
         var goodLines = 0;
-        
+
         // first create a FileReader object
         FileReader fr = new FileReader(filePath);
         // the FileReader allows us to create a BufferedReader
@@ -99,5 +99,77 @@ public class Exercises {
 }
 
 // Write your Quaternion record class here
+class Quaternion {
+    // coefficients are final and private to make them immutable and invisible
+    final private double a;
+    final private double b;
+    final private double c;
+    final private double d;
+
+    // static constant members
+    static public Quaternion ZERO = new Quaternion(0, 0, 0, 0);
+    static public Quaternion I = new Quaternion(0, 1, 0, 0);
+    static public Quaternion J = new Quaternion(0, 0, 1, 0);
+    static public Quaternion K = new Quaternion(0, 0, 0, 1);
+
+    // constructor
+    public Quaternion(double a, double b, double c, double d) {
+        // don't allow NaNs in constructor
+        if (Double.isNaN(a) | Double.isNaN(b) | Double.isNaN(c) | Double.isNaN(d)) {
+            throw new IllegalArgumentException("Coefficients cannot be NaN");
+        }
+
+        // set coefficients to their non-NaN values
+        this.a = a;
+        this.b = b;
+        this.c = c;
+        this.d = d;
+    }
+
+    // getters for each of the coefficients
+    public Double a() {
+        return this.a;
+    }
+    public Double b() {
+        return this.b;
+    }
+    public Double c() {
+        return this.c;
+    }
+    public Double d() {
+        return this.d;
+    }
+
+    // getter for all the coefficients
+    public List<Object> coefficients() {
+        return List.of(this.a, this.b, this.c, this.d);
+    }
+
+    // getter for the conjugate
+    public Quaternion conjugate() {
+        return new Quaternion(this.a, -this.b, -this.c, -this.d);
+    }
+
+    // addition
+    public Quaternion plus(Quaternion other) {
+        return new Quaternion(this.a + other.a(), this.b + other.b(), this.c + other.c(), this.d + other.d());
+    }
+
+    // multiplication
+    public Quaternion times(Quaternion other) {
+        double newA = this.a * other.a - this.b * other.b - this.c * other.c - this.d * other.d;
+        double newB = this.a * other.b + this.b * other.a + this.c * other.d - this.d * other.c;
+        double newC = this.a * other.c - this.b * other.d + this.c * other.a + this.d * other.b;
+        double newD = this.a * other.d + this.b * other.c - this.c * other.b + this.d * other.a;
+        return new Quaternion(newA, newB, newC, newD);
+    }
+
+    // equals
+    public boolean equals(Quaternion other) {
+        return (this.a == other.a() | this.b == other.b() | this.c == other.c() | this.d == other.d());
+    }
+
+    // toString
+}
 
 // Write your BinarySearchTree sealed interface and its implementations here

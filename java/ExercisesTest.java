@@ -90,39 +90,39 @@ public class ExercisesTest {
             "No such file");
         expect(Exercises.meaningfulLineCount("../test-for-line-count.txt") == 5);
 
-        // suite("Quaternion");
-        // expectToThrow(() -> new Quaternion(Double.NaN, 0, 0, 0),
-        //         IllegalArgumentException.class, "Coefficients cannot be NaN");
-        // expectToThrow(() -> new Quaternion(0, Double.NaN, 0, 0),
-        //         IllegalArgumentException.class, "Coefficients cannot be NaN");
-        // expectToThrow(() -> new Quaternion(0, 0, Double.NaN, 0),
-        //         IllegalArgumentException.class, "Coefficients cannot be NaN");
-        // expectToThrow(() -> new Quaternion(0, 0, 0, Double.NaN),
-        //         IllegalArgumentException.class, "Coefficients cannot be NaN");
+        suite("Quaternion");
+        expectToThrow(() -> new Quaternion(Double.NaN, 0, 0, 0),
+                IllegalArgumentException.class, "Coefficients cannot be NaN");
+        expectToThrow(() -> new Quaternion(0, Double.NaN, 0, 0),
+                IllegalArgumentException.class, "Coefficients cannot be NaN");
+        expectToThrow(() -> new Quaternion(0, 0, Double.NaN, 0),
+                IllegalArgumentException.class, "Coefficients cannot be NaN");
+        expectToThrow(() -> new Quaternion(0, 0, 0, Double.NaN),
+                IllegalArgumentException.class, "Coefficients cannot be NaN");
 
-        // var q = new Quaternion(3.5, 2.25, -100, -1.25);
-        // expect(q.a() == 3.5);
-        // expect(q.b() == 2.25);
-        // expect(q.c() == -100.0);
-        // expect(q.d() == -1.25);
+        var q = new Quaternion(3.5, 2.25, -100, -1.25);
+        expect(q.a() == 3.5);
+        expect(q.b() == 2.25);
+        expect(q.c() == -100.0);
+        expect(q.d() == -1.25);
 
-        // var q1 = new Quaternion(1, 3, 5, 2);
-        // var q2 = new Quaternion(-2, 2, 8, -1);
-        // var q3 = new Quaternion(-1, 5, 13, 1);
-        // var q4 = new Quaternion(-46, -25, 5, 9);
+        var q1 = new Quaternion(1, 3, 5, 2);
+        var q2 = new Quaternion(-2, 2, 8, -1);
+        var q3 = new Quaternion(-1, 5, 13, 1);
+        var q4 = new Quaternion(-46, -25, 5, 9);
 
-        // expect(Quaternion.ZERO.coefficients().equals(List.of(0.0, 0.0, 0.0, 0.0)));
-        // expect(Quaternion.K.coefficients().equals(List.of(0.0, 0.0, 0.0, 1.0)));
-        // expect(q2.coefficients().equals(List.of(-2.0, 2.0, 8.0, -1.0)));
+        expect(Quaternion.ZERO.coefficients().equals(List.of(0.0, 0.0, 0.0, 0.0)));
+        expect(Quaternion.K.coefficients().equals(List.of(0.0, 0.0, 0.0, 1.0)));
+        expect(q2.coefficients().equals(List.of(-2.0, 2.0, 8.0, -1.0)));
 
-        // expect(q1.plus(q2).equals(q3));
-        // expect(q1.times(q2).equals(q4));
-        // expect(q1.plus(Quaternion.ZERO).equals(q1));
-        // expect(q1.times(Quaternion.ZERO).equals(Quaternion.ZERO));
+        expect(q1.plus(q2).equals(q3));
+        expect(q1.times(q2).equals(q4));
+        expect(q1.plus(Quaternion.ZERO).equals(q1));
+        expect(q1.times(Quaternion.ZERO).equals(Quaternion.ZERO));
 
-        // expect(Quaternion.I.times(Quaternion.J).equals(Quaternion.K));
-        // expect(Quaternion.J.times(Quaternion.K).equals(Quaternion.I));
-        // expect(Quaternion.J.plus(Quaternion.I).equals(new Quaternion(0, 1, 1, 0)));
+        expect(Quaternion.I.times(Quaternion.J).equals(Quaternion.K));
+        expect(Quaternion.J.times(Quaternion.K).equals(Quaternion.I));
+        expect(Quaternion.J.plus(Quaternion.I).equals(new Quaternion(0, 1, 1, 0)));
 
         // expect(("" + Quaternion.ZERO).equals("0"));
         // expect(("" + Quaternion.J).equals("j"));
