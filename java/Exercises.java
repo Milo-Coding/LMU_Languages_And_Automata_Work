@@ -192,15 +192,15 @@ record Quaternion(double a, double b, double c, double d) {
     }
 }
 
-// Write your BinarySearchTree sealed interface and its implementations here
 
-// sealed interface BinarySearchTree permits Empty, Node {
+sealed interface BinarySearchTree permits Empty, Node {
 
-//     final class Empty implements BinarySearchTree {
+}
 
-//     }
+final class Empty implements BinarySearchTree {
 
-//     final class Node implements BinarySearchTree {
+}
 
-//     } 
-// }
+final class Node implements BinarySearchTree {
+
+} 
