@@ -124,15 +124,15 @@ public class ExercisesTest {
         expect(Quaternion.J.times(Quaternion.K).equals(Quaternion.I));
         expect(Quaternion.J.plus(Quaternion.I).equals(new Quaternion(0, 1, 1, 0)));
 
-        // expect(("" + Quaternion.ZERO).equals("0"));
-        // expect(("" + Quaternion.J).equals("j"));
-        // expect(("" + Quaternion.K.conjugate()).equals("-k"));
-        // expect(("" + Quaternion.J.conjugate().times(new Quaternion(2, 0, 0, 0))).equals("-2.0j"));
-        // expect(("" + Quaternion.J.plus(Quaternion.K)).equals("j+k"));
-        // expect(("" + new Quaternion(0, -1, 0, 2.25)).equals("-i+2.25k"));
-        // expect(("" + new Quaternion(-20, -1.75, 13, -2.25)).equals("-20.0-1.75i+13.0j-2.25k"));
-        // expect(("" + new Quaternion(-1, -2, 0, 0)).equals("-1.0-2.0i"));
-        // expect(("" + new Quaternion(1, 0, -2, 5)).equals("1.0-2.0j+5.0k"));
+        expect(("" + Quaternion.ZERO).equals("0"));
+        expect(("" + Quaternion.J).equals("j"));
+        expect(("" + Quaternion.K.conjugate()).equals("-k"));
+        expect(("" + Quaternion.J.conjugate().times(new Quaternion(2, 0, 0, 0))).equals("-2.0j"));
+        expect(("" + Quaternion.J.plus(Quaternion.K)).equals("j+k"));
+        expect(("" + new Quaternion(0, -1, 0, 2.25)).equals("-i+2.25k"));
+        expect(("" + new Quaternion(-20, -1.75, 13, -2.25)).equals("-20.0-1.75i+13.0j-2.25k"));
+        expect(("" + new Quaternion(-1, -2, 0, 0)).equals("-1.0-2.0i"));
+        expect(("" + new Quaternion(1, 0, -2, 5)).equals("1.0-2.0j+5.0k"));
 
         // suite("BinarySearchTree");
         // BinarySearchTree t = new Empty();

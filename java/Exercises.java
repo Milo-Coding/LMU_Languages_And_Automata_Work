@@ -123,7 +123,7 @@ record Quaternion(double a, double b, double c, double d) {
     }
 
     // getter for all the coefficients
-    public List<Object> coefficients() {
+    public List<Double> coefficients() {
         return List.of(this.a, this.b, this.c, this.d);
     }
 
@@ -152,6 +152,55 @@ record Quaternion(double a, double b, double c, double d) {
     }
 
     // toString
+    public String toString() {
+        // create a string to store our output
+        var printString = "";
+
+        // create a list for the order of our coefficient symbols
+        String[] symbols = {"", "i", "j", "k"};
+
+        // handle each coefficient in order (we have to use an indexed loop becasue Lists are stinky in java)
+        for (int i = 0; i < symbols.length; i++) {
+            // If our coefficient is zero we can skip its loop
+            if (this.coefficients().get(i) == 0) {
+                continue;
+            }
+
+            // first check if we need a plus symbol (don't need if first non-zero coefficient or negative value)
+            if (!printString.isEmpty() && this.coefficients().get(i) > 0) {
+                printString += "+";
+            }
+            // next add our coefficient if it isn't 1 or negative 1, unless it is the real numbers space
+            if (Math.abs(this.coefficients().get(i)) != 1 | symbols[i].equals("")) {
+                printString += this.coefficients().get(i);
+            }
+            // if it was -1 and not the real number component, ad just the - sign
+            else if (this.coefficients().get(i) == -1) {
+                printString += "-";
+            }
+            // finally add the symbol for that coefficent and remove it from our list of symbols
+            printString += symbols[i];
+        }
+        
+        // check edge case all zeros
+        if (printString.isEmpty()) {
+            printString = "0";
+        }
+
+        // return the string
+        return printString;
+    }
 }
 
 // Write your BinarySearchTree sealed interface and its implementations here
+
+// sealed interface BinarySearchTree permits Empty, Node {
+
+//     final class Empty implements BinarySearchTree {
+
+//     }
+
+//     final class Node implements BinarySearchTree {
+
+//     } 
+// }
