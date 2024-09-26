@@ -14,7 +14,12 @@ fun change(amount: Long): Map<Int, Long> {
     return counts
 }
 
-// Write your first then lower case function here
+fun firstThenLowerCase(strings: List<String>, predicate: (String) -> Boolean): String? {
+    // check all values in our list against our predicate
+    strings.forEach { string -> if (predicate(string)) { return string.lowercase() } }
+    // if nothing passed the predicate
+    return null
+}
 
 // Write your say function here
 

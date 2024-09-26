@@ -36,13 +36,11 @@ fun main() {
     expect(change(100000000037) == mapOf(25 to 4000000001L, 10 to 1L, 5 to 0L, 1 to 2L))
     expect(change(10000000000005) == mapOf(25 to 400000000000L, 10 to 0L, 5 to 1L, 1 to 0L))
 
-    // Uncomment the following tests as you complete the exercises
-
-    // suite("firstThenLowerCase");
-    // expect(firstThenLowerCase(listOf(), { !it.isEmpty() }) == null)
-    // expect(firstThenLowerCase(listOf("", "A", "B"), { !it.isEmpty() }) == "a")
-    // expect(firstThenLowerCase(listOf("", "A", "ABC"), { it.length > 3 }) == null)
-    // expect(firstThenLowerCase(listOf("ABC", "ABCD", "ABCDE"), { it.length > 3 }) == "abcd")
+    suite("firstThenLowerCase");
+    expect(firstThenLowerCase(listOf(), { !it.isEmpty() }) == null)
+    expect(firstThenLowerCase(listOf("", "A", "B"), { !it.isEmpty() }) == "a")
+    expect(firstThenLowerCase(listOf("", "A", "ABC"), { it.length > 3 }) == null)
+    expect(firstThenLowerCase(listOf("ABC", "ABCD", "ABCDE"), { it.length > 3 }) == "abcd")
 
     // suite("say")
     // expect(say().phrase == "")
