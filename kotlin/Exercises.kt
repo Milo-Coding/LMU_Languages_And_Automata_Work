@@ -136,4 +136,74 @@ data class Quaternion(val a: Double, val b: Double, val c: Double, val d: Double
     }
 }
 
-// Write your Binary Search Tree interface and implementing classes here
+// interface for our BST Classes
+sealed interface BinarySearchTree {
+    fun size(): Int
+    override fun toString(): String
+    fun contains(target: String): Boolean
+    fun insert(addNode: String): BinarySearchTree
+
+    // the empty BST will always be our starting point and will be at the end of each leaf node
+    object Empty : BinarySearchTree {
+        // the size of an empty tree is 0
+        override fun size(): Int = 0
+        // the string that represents an empty string is "()"
+        override fun toString(): String = "()"
+        // empty trees don't contain anything
+        override fun contains(target: String): Boolean = false
+        // when a node is added to an empty tree, replace the tree with that node
+        override fun insert(nodeName: String): BinarySearchTree = Node(nodeName)
+    }
+
+    // data class for a non-empty node in the tree
+    data class Node(val nodeName: String, val childL: BinarySearchTree = Empty, val childR: BinarySearchTree = Empty) : BinarySearchTree {
+
+        // the size of a node is 1 + the size of its children
+        override fun size(): Int {
+            return 1 + this.childL.size() + this.childR.size()
+        }
+
+        // the string is formated "((childL)name(childR))" where each child also obeys this format
+        // empty children are ignored rather than represented as ()
+        override fun toString(): String {
+            // get the names of each child if they aren't Empty nodes
+            var cLName = "";
+            if (this.childL is Node) {
+                cLName = this.childL.toString()
+            }
+            var cRName = "";
+            if (this.childR is Node) {
+                cRName = this.childR.toString()
+            }
+
+            // return our formatted full name
+            return "(" + cLName + this.nodeName + cRName + ")"
+        }
+
+        // if this node or one of its children is the target, the target is in the tree
+        override fun contains(target: String): Boolean {
+            if (this.nodeName == target || this.childL.contains(target) || this.childR.contains(target)) {
+                return true
+            }
+            return false
+        }
+
+        // add target to the correct position in the tree
+        override fun insert(addNode: String): BinarySearchTree {
+            // if the value to add is less than the current node, it will be inserted along the left branch
+            if (addNode.compareTo(this.nodeName) < 0) {
+                // pass it down to the child for insertion and return the new tree
+                return Node(this.nodeName, this.childL.insert(addNode), this.childR)
+            }
+
+            // if the value to add is greater than the current node, it will be inserted along the right branch
+            if (addNode.compareTo(this.nodeName) > 0) {
+                // pass it down to the child for insertion and return the new tree
+                return Node(this.nodeName, this.childL, this.childR.insert(addNode))
+            }
+
+            // if the value to add is already in our tree (or equal to one of those values), no need to add it
+            return this
+        }
+    }
+}
