@@ -59,6 +59,44 @@ fun meaningfulLineCount(filePath: String): Long {
     return goodLines
 }
 
-// Write your Quaternion data class here
+data class Quaternion(val a: Double, val b: Double, val c: Double, val d: Double) {
+    // static constants
+    companion object {
+        // can't actually put const for each var because it is incompatable with non-primitive types (or non-strings) like Quaternion
+        val ZERO = Quaternion(0.0, 0.0, 0.0, 0.0)
+        val I = Quaternion(0.0, 1.0, 0.0, 0.0)
+        val J = Quaternion(0.0, 0.0, 1.0, 0.0)
+        val K = Quaternion(0.0, 0.0, 0.0, 1.0)
+    }
+
+    // gets coefficients
+    fun coefficients(): List<Double> {
+        return listOf(this.a, this.b, this.c, this.d)
+    }
+
+    // gets conjugate
+    fun conjugate(): Quaternion {
+        return Quaternion(this.a, -this.b, -this.c, -this.d)
+    }
+
+    // overload addition
+    operator fun plus(other: Quaternion): Quaternion {
+        return Quaternion(this.a + other.a, this.b + other.b, this.c + other.c, this.d + other.d)
+    }
+    
+    // overload multiplication
+    operator fun times(other: Quaternion): Quaternion {
+        var newA: Double = this.a * other.a - this.b * other.b - this.c * other.c - this.d * other.d;
+        var newB: Double = this.a * other.b + this.b * other.a + this.c * other.d - this.d * other.c;
+        var newC: Double = this.a * other.c - this.b * other.d + this.c * other.a + this.d * other.b;
+        var newD: Double = this.a * other.d + this.b * other.c - this.c * other.b + this.d * other.a;
+        return Quaternion(newA, newB, newC, newD);
+    }
+
+    // overload toString
+    override fun toString(): String {
+        return "0"
+    }
+}
 
 // Write your Binary Search Tree interface and implementing classes here
