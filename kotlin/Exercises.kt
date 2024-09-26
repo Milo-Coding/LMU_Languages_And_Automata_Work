@@ -21,7 +21,24 @@ fun firstThenLowerCase(strings: List<String>, predicate: (String) -> Boolean): S
     return null
 }
 
-// Write your say function here
+// create a say class where the default phrase is the empty string
+class Say(val toSay: String = "") {
+    // set our phrase property to what we want to say
+    val phrase: String = toSay
+
+    // if we want to add a word to our phrase
+    fun and(toSay: String): Say {
+        return Say(phrase + " " + toSay)
+    }
+}
+// say without parameters
+fun say(): Say {
+    return Say()
+}
+// say with a parameter
+fun say(toSay: String): Say {
+    return Say(toSay)
+}
 
 // Write your meaningfulLineCount function here
 
