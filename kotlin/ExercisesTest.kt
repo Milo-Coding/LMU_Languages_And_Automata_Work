@@ -105,25 +105,25 @@ fun main() {
     expect(t.contains("G"))
     expect(!t.contains("A"))
     expect(t.toString() == "(G)")
-    // t = t.insert("B")
-    // expect(t.toString() == "((B)G)")
-    // t = t.insert("D")
-    // expect(t.toString() == "((B(D))G)")
-    // t = t.insert("H")
-    // expect(t.toString() == "((B(D))G(H))")
-    // t = t.insert("A")
-    // expect(t.toString() == "(((A)B(D))G(H))")
-    // t = t.insert("C")
-    // t = t.insert("J")
-    // expect(t.size() == 7)
-    // expect(t.contains("J"))
-    // expect(!t.contains("Z"))
-    // expect(t.toString() == "(((A)B((C)D))G(H(J)))")
-    // // Test immutability
-    // var t2: BinarySearchTree = t;
-    // t2 = t2.insert("F");
-    // expect(t2.size() == 8);
-    // expect(t.size() == 7);
+    t = t.insert("B")
+    expect(t.toString() == "((B)G)")
+    t = t.insert("D")
+    expect(t.toString() == "((B(D))G)")
+    t = t.insert("H")
+    expect(t.toString() == "((B(D))G(H))")
+    t = t.insert("A")
+    expect(t.toString() == "(((A)B(D))G(H))")
+    t = t.insert("C")
+    t = t.insert("J")
+    expect(t.size() == 7)
+    expect(t.contains("J"))
+    expect(!t.contains("Z"))
+    expect(t.toString() == "(((A)B((C)D))G(H(J)))")
+    // Test immutability
+    var t2: BinarySearchTree = t;
+    t2 = t2.insert("F");
+    expect(t2.size() == 8);
+    expect(t.size() == 7);
 
     println("\n$passed passed, $failed failed")
 }
