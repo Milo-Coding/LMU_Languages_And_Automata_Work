@@ -24,3 +24,18 @@ func change(_ amount: Int) -> Result<[Int:Int], NegativeAmountError> {
 // Write your Quaternion struct here
 
 // Write your Binary Search Tree enum here
+enum BinarySearchTree {
+    // list the possible cases
+    case empty
+    indirect case node(BinarySearchTree, Int, BinarySearchTree)
+
+    // return the number of nodes in our tree
+    var size: Int {
+        switch self{
+            // if it's empty, return 0
+            case .empty: return 0
+            // if it isn't empty, get the size of its children and add 1 for the size of the current node
+            case let .node(left, _, right): return left.size + 1 + right.size
+        }
+    }
+}
