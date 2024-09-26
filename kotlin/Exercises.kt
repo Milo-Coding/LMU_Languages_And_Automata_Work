@@ -95,7 +95,44 @@ data class Quaternion(val a: Double, val b: Double, val c: Double, val d: Double
 
     // overload toString
     override fun toString(): String {
-        return "0"
+        // create a string to store our output
+        var printString = ""
+
+        // create a list for the order of our coefficient symbols
+        val symbols = arrayOf("", "i", "j", "k")
+
+        // handle each coefficient in order
+        for (i in symbols.indices) {
+            // If our coefficient is zero we can skip its loop
+            if (this.coefficients()[i] == 0.0) {
+                continue
+            }
+
+            // first check if we need a plus symbol (don't need if first non-zero coefficient or negative value)
+            if (printString.isNotEmpty() && this.coefficients()[i] > 0.0) {
+                printString += "+"
+            }
+
+            // next add our coefficient if it isn't 1 or negative 1, unless it is the real number space
+            if (kotlin.math.abs(this.coefficients()[i]) != 1.0 || symbols[i].isEmpty()) {
+                printString += this.coefficients()[i].toString()
+            }
+            // if it was -1 and not the real number component, add just the - sign
+            else if (this.coefficients()[i] == -1.0) {
+                printString += "-"
+            }
+
+            // finally add the symbol for that coefficient
+            printString += symbols[i]
+        }
+
+        // check edge case all zeros
+        if (printString.isEmpty()) {
+            printString = "0"
+        }
+
+        // return the string
+        return printString
     }
 }
 
