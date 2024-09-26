@@ -31,12 +31,8 @@ class Say(val toSay: String = "") {
         return Say(phrase + " " + toSay)
     }
 }
-// say without parameters
-fun say(): Say {
-    return Say()
-}
 // say with a parameter
-fun say(toSay: String): Say {
+fun say(toSay: String = ""): Say {
     return Say(toSay)
 }
 
