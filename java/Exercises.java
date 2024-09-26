@@ -192,15 +192,106 @@ record Quaternion(double a, double b, double c, double d) {
     }
 }
 
-
+// interface for our BST Classes
 sealed interface BinarySearchTree permits Empty, Node {
-
+    public int size();
+    public String toString();
+    public boolean contains(String node);
+    public BinarySearchTree insert(String node);
 }
 
+// the empty BST will always be our starting point and will be at the end of each leaf node
 final class Empty implements BinarySearchTree {
 
+    // the size of an empty tree is 0
+    public int size() {
+        return 0;
+    }
+
+    // the string that represents an empty string is "()"
+    public String toString() {
+        return "()";
+    }
+
+    // empty trees don't contain anything
+    public boolean contains(String target) {
+        return false;
+    }
+
+    // when a node is added to an empty tree, replace the tree with that node
+    public BinarySearchTree insert(String node) {
+        return new Node(node);
+    }
 }
 
 final class Node implements BinarySearchTree {
 
+    // all the properties of a node in a BST
+    private String name;
+    private BinarySearchTree childL;
+    private BinarySearchTree childR;
+
+    // construct our node (it is a leaf by default)
+    public Node(String node) {
+        this.name = node;
+        this.childL = new Empty();
+        this.childR = new Empty();
+    }
+
+    // the size of a node is 1 + the size of its children
+    public int size() {
+        return 1 + this.childL.size() + this.childR.size();
+    }
+
+    // the string is formated "((childL)name(childR))" where each child also obeys this format
+    // empty children are ignored rather than represented as ()
+    public String toString() {
+        // get the names of each child if they aren't Empty nodes
+        var cLName = "";
+        if (this.childL instanceof Node) {
+            cLName = this.childL.toString();
+        }
+        var cRName = "";
+        if (this.childR instanceof Node) {
+            cRName = this.childR.toString();
+        }
+
+        // return our formatted full name
+        return "(" + cLName + this.name + cRName + ")";
+    }
+
+    // if this node or one of its children is the target, the target is in the tree
+    public boolean contains(String target) {
+        if (this.name == target | this.childL.contains(target) | this.childR.contains(target)) {
+            return true;
+        }
+        return false;
+    }
+
+    // add target to the correct position in the tree
+    public BinarySearchTree insert(String addNode) {
+        // if the value to add is less than the current node, it will be inserted along the left branch
+        if (addNode.compareTo(this.name) < 0) {
+            // if the left branch is Empty, add it there
+            if (this.childL instanceof Empty) {
+                this.childL = new Node(addNode);
+            }
+            // otherwise, pass it down to the child for insertion
+            this.childL.insert(addNode);
+        }
+
+        // if the value to add is greater than the current node, it will be inserted along the right branch
+        if (addNode.compareTo(this.name) > 0) {
+            // if the left branch is Empty, add it there
+            if (this.childR instanceof Empty) {
+                this.childR = new Node(addNode);
+            }
+            // otherwise, pass it down to the child for insertion
+            this.childR.insert(addNode);
+        }
+
+        // if the value to add is already in our tree (or equal to one of those values), no need to add it
+        // return our updated tree
+        return this;
+    }
 } 
