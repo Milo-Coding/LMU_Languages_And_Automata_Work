@@ -36,7 +36,28 @@ fun say(toSay: String = ""): Say {
     return Say(toSay)
 }
 
-// Write your meaningfulLineCount function here
+fun meaningfulLineCount(filePath: String): Long {
+    // create a counter for our meaningful lines (must be a long to match return type)
+    var goodLines: Long = 0L
+
+    // use BufferedReader to go through each line of the file
+    BufferedReader(FileReader(filePath)).use { reader ->
+        // read the first line of the file (it will be null if there are no lines in the file)
+        var line: String? = reader.readLine()
+        // loop until we reach the end of the file
+        while (line != null) {
+            // if the line is meaningful
+            if (line.trim().isNotEmpty() && line.trim().substring(0, 1) != "#") {
+                // count it
+                goodLines++
+            }
+            // read the next line (it will be null if we are currently on the last line)
+            line = reader.readLine()
+        }
+    }
+    // return our count
+    return goodLines
+}
 
 // Write your Quaternion data class here
 
