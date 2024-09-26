@@ -227,15 +227,22 @@ final class Empty implements BinarySearchTree {
 final class Node implements BinarySearchTree {
 
     // all the properties of a node in a BST
-    private String name;
-    private BinarySearchTree childL;
-    private BinarySearchTree childR;
+    final private String name;
+    final private BinarySearchTree childL;
+    final private BinarySearchTree childR;
 
     // construct our node (it is a leaf by default)
     public Node(String node) {
         this.name = node;
         this.childL = new Empty();
         this.childR = new Empty();
+    }
+
+    // constructor for nodes with children given
+    public Node(String node, BinarySearchTree childL, BinarySearchTree childR) {
+        this.name = node;
+        this.childL = childL;
+        this.childR = childR;
     }
 
     // the size of a node is 1 + the size of its children
@@ -272,26 +279,17 @@ final class Node implements BinarySearchTree {
     public BinarySearchTree insert(String addNode) {
         // if the value to add is less than the current node, it will be inserted along the left branch
         if (addNode.compareTo(this.name) < 0) {
-            // if the left branch is Empty, add it there
-            if (this.childL instanceof Empty) {
-                this.childL = new Node(addNode);
-            }
-            // otherwise, pass it down to the child for insertion
-            this.childL.insert(addNode);
+            // pass it down to the child for insertion and return the new tree
+            return new Node(this.name, this.childL.insert(addNode), this.childR);
         }
 
         // if the value to add is greater than the current node, it will be inserted along the right branch
         if (addNode.compareTo(this.name) > 0) {
-            // if the left branch is Empty, add it there
-            if (this.childR instanceof Empty) {
-                this.childR = new Node(addNode);
-            }
-            // otherwise, pass it down to the child for insertion
-            this.childR.insert(addNode);
+            // pass it down to the child for insertion and return the new tree
+            return new Node(this.name, this.childL, this.childR.insert(addNode));
         }
 
         // if the value to add is already in our tree (or equal to one of those values), no need to add it
-        // return our updated tree
         return this;
     }
 } 
