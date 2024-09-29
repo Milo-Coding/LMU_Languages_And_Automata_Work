@@ -48,7 +48,38 @@ func say(_ toSay: String = "") -> Say {
     return Say(toSay)
 }
 
-// Write your meaningfulLineCount function here
+// Handle errors while reading file
+enum FileReadError: Error {
+    case noSuchFile
+}
+// meaninful line counter
+func meaningfulLineCount(_ filePath: String) async -> Result<Int, FileReadError> {
+    // store our meaningfulLines
+    var goodLines = 0
+
+    // make sure we are able to read the file
+    do {
+        // get the contents of the file
+        let fileContents = try String(contentsOfFile: filePath, encoding: .utf8)
+
+        // check each line in the file
+        for line in fileContents.split(separator: "\n") {
+            // trim whitespace off the line
+            let trimmedLine = line.trimmingCharacters(in: .whitespacesAndNewlines)
+
+            // check if the line is meaningful (not empty and no leading #)
+            if (trimmedLine != "" && trimmedLine[trimmedLine.startIndex] != "#") {
+                goodLines += 1
+            }
+        }
+    } catch {
+        // if we got an error trying to read the file, return a failure Result
+        return .failure(.noSuchFile)
+    }
+
+    // if everything went right, return the total number of meaningful lines
+    return .success(goodLines)
+}
 
 // Write your Quaternion struct here
 
