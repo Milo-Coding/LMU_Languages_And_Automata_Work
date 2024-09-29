@@ -15,9 +15,38 @@ func change(_ amount: Int) -> Result<[Int:Int], NegativeAmountError> {
     return .success(counts)
 }
 
-// Write your first then lower case function here
+func firstThenLowerCase(of strings: [String], satisfying predicate: (String) -> Bool) -> String? {
+    // for each string in the list of strings
+    for string in strings {
+        // if it passes the predicate
+        if predicate(string) {
+            // return the lower case string
+            return string.lowercased()
+        } 
+    }
+    // if no string passed the predicate, return nil
+    return nil
+}
 
-// Write your say function here
+// object for say
+struct Say {
+    // store our phrase
+    let phrase: String
+
+    // set the phrase to the given string
+    init(_ toSay: String) {
+        self.phrase = toSay
+    }
+
+    // create a new Say with the additional word
+    func and(_ toSay: String) -> Say {
+        return Say(self.phrase + " " + toSay)
+    }
+}
+// function to create a say object with a default of the empty string
+func say(_ toSay: String = "") -> Say {
+    return Say(toSay)
+}
 
 // Write your meaningfulLineCount function here
 
