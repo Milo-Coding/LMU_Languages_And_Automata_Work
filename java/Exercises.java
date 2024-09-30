@@ -290,6 +290,6 @@ final class Node implements BinarySearchTree {
         }
 
         // if the value to add is already in our tree (or equal to one of those values), no need to add it
-        return this;
+        return new Node(this.name, this.childL, this.childR);
     }
 } 

@@ -203,7 +203,7 @@ sealed interface BinarySearchTree {
             }
 
             // if the value to add is already in our tree (or equal to one of those values), no need to add it
-            return this
+            return Node(this.nodeName, this.childL, this.childR)
         }
     }
 }
