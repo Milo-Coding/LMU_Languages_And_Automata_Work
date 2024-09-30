@@ -167,18 +167,76 @@ func * (left: Quaternion, right: Quaternion) -> Quaternion {
     return Quaternion(a: newA, b: newB, c: newC, d: newD);
 }
 
-enum BinarySearchTree {
+enum BinarySearchTree: CustomStringConvertible {
     // list the possible cases
     case empty
-    indirect case node(BinarySearchTree, Int, BinarySearchTree)
+    indirect case node(BinarySearchTree, String, BinarySearchTree)
 
     // return the number of nodes in our tree
     var size: Int {
-        switch self{
-            // if it's empty, return 0
+        switch self {
+            // if it's empty, size is 0
             case .empty: return 0
             // if it isn't empty, get the size of its children and add 1 for the size of the current node
             case let .node(left, _, right): return left.size + 1 + right.size
+        }
+    }
+
+    // check if a node is in our tree
+    func contains(_ target: String) -> Bool {
+        switch self {
+            // if the node is empty, it doesn't contain anything
+            case .empty: return false
+
+            // if this is the target node or one of its decentdents is, the target is in the tree
+            case let .node(left, name, right): return (name == target || left.contains(target) || right.contains(target))
+        }
+    }
+
+    // toString for the BST
+    var description: String {
+        switch self {
+            // and empty tree is represented as ()
+            case .empty: return "()"
+
+            // the string is formated "((left)name(right))" where each child also obeys this format
+            case let .node(left, name, right): do {
+                // get the names of each child if they aren't Empty nodes
+                var leftName = "";
+                if case .node = left {
+                    leftName = "\(left)"
+                }
+                var rightName = "";
+                if case .node = right {
+                    rightName = "\(right)"
+                }
+
+                // return our formatted full name
+                return "(" + leftName + name + rightName + ")"
+            }
+        }
+    }
+
+    // add new nodes to our tree
+    func insert(_ newNode: String) -> BinarySearchTree {
+        switch self {
+            // if the node is empty, replace it with our new node
+            case .empty: return .node(.empty, newNode, .empty)
+
+            // if this is the target node or one of its decentdents is, the target is in the tree
+            case let .node(left, name, right):  do {
+                // if the newNode is less than the current node, add it to the left branch
+                if (newNode < name) {
+                    return .node(left.insert(newNode), name, right)
+                }
+                // if the newNode is greater than the current node, add it to the right branch
+                if (newNode > name) {
+                    return .node(left, name, right.insert(newNode))
+                }
+
+                // else (if the new node is the same as name) it is already in the tree no no work needed
+                return .node(left, name, right)
+            }
         }
     }
 }

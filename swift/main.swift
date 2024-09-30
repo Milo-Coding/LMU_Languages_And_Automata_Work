@@ -96,34 +96,34 @@ expect("\(Quaternion(a: -20, b: -1.75, c: 13, d: -2.25))" == "-20.0-1.75i+13.0j-
 expect("\(Quaternion(a: -1, b: -2, c: 0, d: 0))" == "-1.0-2.0i")
 expect("\(Quaternion(a: 1, b: 0, c: -2, d: 5))" == "1.0-2.0j+5.0k")
 
-// suite("BinarySearchTree");
-// var t: BinarySearchTree = .empty
-// expect(t.size == 0);
-// expect(!t.contains("A"));
-// expect("\(t)" == "()")
-// t = t.insert("G");
-// expect(t.size == 1);
-// expect(t.contains("G"));
-// expect(!t.contains("A"));
-// expect("\(t)" == "(G)")
-// t = t.insert("B");
-// expect("\(t)" == "((B)G)")
-// t = t.insert("D");
-// expect("\(t)" == "((B(D))G)")
-// t = t.insert("H");
-// expect("\(t)" == "((B(D))G(H))")
-// t = t.insert("A");
-// expect("\(t)" == "(((A)B(D))G(H))")
-// t = t.insert("C");
-// t = t.insert("J");
-// expect(t.size == 7);
-// expect(t.contains("J"));
-// expect(!t.contains("Z"));
-// expect("\(t)" == "(((A)B((C)D))G(H(J)))")
-// // Test immutability
-// var t2: BinarySearchTree = t;
-// t2 = t2.insert("F");
-// expect(t2.size == 8);
-// expect(t.size == 7);
+suite("BinarySearchTree");
+var t: BinarySearchTree = .empty
+expect(t.size == 0);
+expect(!t.contains("A"));
+expect("\(t)" == "()");
+t = t.insert("G");
+expect(t.size == 1);
+expect(t.contains("G"));
+expect(!t.contains("A"));
+expect("\(t)" == "(G)")
+t = t.insert("B");
+expect("\(t)" == "((B)G)")
+t = t.insert("D");
+expect("\(t)" == "((B(D))G)")
+t = t.insert("H");
+expect("\(t)" == "((B(D))G(H))")
+t = t.insert("A");
+expect("\(t)" == "(((A)B(D))G(H))")
+t = t.insert("C");
+t = t.insert("J");
+expect(t.size == 7);
+expect(t.contains("J"));
+expect(!t.contains("Z"));
+expect("\(t)" == "(((A)B((C)D))G(H(J)))")
+// Test immutability
+var t2: BinarySearchTree = t;
+t2 = t2.insert("F");
+expect(t2.size == 8);
+expect(t.size == 7);
 
 print("\n\(passed) passed, \(failed) failed")
