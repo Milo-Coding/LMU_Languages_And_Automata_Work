@@ -1,4 +1,6 @@
 open Exercises;;
+(* TODO: remove after testing finished:*)
+(* ocamlc -c exercises.mli exercises.ml exercises_test.mli && ocaml exercises.cmo exercises_test.ml *)
 
 (* -------------------------------------------------------------------------- *)
 let passes = ref 0;;
