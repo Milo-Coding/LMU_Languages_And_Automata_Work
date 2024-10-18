@@ -14,17 +14,42 @@ export function change(amount: bigint): Map<bigint, bigint> {
 }
 
 // TODO: ask about <T, U> vs any vs String | number
-export function firstThenApply<T, U>(a: Array<T>, p: (s: T) => boolean, f: (x: T) => U): U | undefined {
+export function firstThenApply<T, U>(
+  a: Array<T>,
+  p: (s: T) => boolean,
+  f: (x: T) => U
+): U | undefined {
   // Use find() to search for the first value from the array that satisfies the predicate
-  const found = a.find((value) => p(value));
+  const found = a.find((value) => p(value))
 
   // If a value was found, return the result of applying the function, otherwise return undefined
-  return found !== undefined ? f(found) : undefined;
+  return found !== undefined ? f(found) : undefined
 }
 
-// Write your powers generator here
+export function* powersGenerator(base: bigint): Generator<bigint> {
+  let exponent: bigint = 0n
 
-// Write your line count function here
+  // while loop is needed to return additional values when powersGenerateor is called again
+  while (true) {
+    yield base ** exponent
+    exponent += 1n
+  }
+}
+
+export async function meaningfulLineCount(filePath: any) {
+  let lineCount: number = 0
+
+  // read each line of the code
+  const file = await open(filePath, "r")
+  for await (const line of file.readLines()) {
+    //  if the line is non-empty and non-leading-#, count it
+    if (line.trim() != "" && line.trim()[0] != "#") {
+      lineCount++
+    }
+  }
+
+  return lineCount
+}
 
 // Write your shape type and associated functions here
 
