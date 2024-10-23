@@ -1,26 +1,26 @@
 import Data.Map (Map, toDescList)
-import Data.Text (toLower, pack, unpack)
-import Text.Printf (printf)
+import Data.Text (pack, toLower, unpack)
 import Exercises
+import Text.Printf (printf)
 
 test_change :: Integer -> (Integer, Integer, Integer, Integer) -> Bool
-test_change amount (q, d, n, p) = 
-    case (change amount) of
-        Left message -> False
-        Right mapping -> toDescList mapping == [(25, q), (10, d), (5, n), (1, p)]
+test_change amount (q, d, n, p) =
+  case (change amount) of
+    Left message -> False
+    Right mapping -> toDescList mapping == [(25, q), (10, d), (5, n), (1, p)]
 
 fixture :: [(String, Bool)]
 fixture =
-    [ ( "change detects negatives", change (-50) == Left "amount cannot be negative" )
-    , ( "change 0", test_change 0 (0, 0, 0, 0) )
-    , ( "change 1", test_change 1 (0, 0, 0, 1) )
-    , ( "change 8", test_change 8 (0, 0, 1, 3) )
-    , ( "change 42", test_change 42 (1, 1, 1, 2) )
-    , ( "change 99", test_change 99 (3, 2, 0, 4) )
-    , ( "change 144", test_change 144 (5, 1, 1, 4) )
-    , ( "change 250", test_change 250 (10, 0, 0, 0) )
-    , ( "change 100000000037", test_change 100000000037 (4000000001, 1, 0, 2) )
-    , ( "change 10000000000005", test_change 10000000000005 (400000000000, 0, 1, 0) )
+  [ ("change detects negatives", change (-50) == Left "amount cannot be negative"),
+    ("change 0", test_change 0 (0, 0, 0, 0)),
+    ("change 1", test_change 1 (0, 0, 0, 1)),
+    ("change 8", test_change 8 (0, 0, 1, 3)),
+    ("change 42", test_change 42 (1, 1, 1, 2)),
+    ("change 99", test_change 99 (3, 2, 0, 4)),
+    ("change 144", test_change 144 (5, 1, 1, 4)),
+    ("change 250", test_change 250 (10, 0, 0, 0)),
+    ("change 100000000037", test_change 100000000037 (4000000001, 1, 0, 2)),
+    ("change 10000000000005", test_change 10000000000005 (400000000000, 0, 1, 0))
     -- Uncomment the following lines as you implement the functions
     -- , ( "firstThenApply empty list", (firstThenApply [] (/= "") lower) == Nothing )
     -- , ( "firstThenApply lowercase ok", (firstThenApply ["", "A", "B"] (/= "") lower) == Just "a" )
@@ -55,20 +55,22 @@ fixture =
     -- , ( "number tree did not change", show tree_52381 == "(((1)2(3))5(8))")
     -- , ( "number tree inoder empty", inorder (Empty::BST Int) == [])
     -- , ( "number tree inorder", inorder tree_52381 == [1, 2, 3, 5, 8])
-    ]
-    -- Uncomment the following as needed as you implement your tests
-    where
-        -- lower = unpack . toLower . pack
-        -- lengthOverThree = (> 3) . length
-        -- x `is_approx` y = abs (x - y) < 0.0000001
-        -- g = insert "G" Empty
-        -- gb = insert "B" g
-        -- gbd = insert "D" gb
-        -- tree_52381 = insert 1 $ insert 8 $ insert 3 $ insert 2 $ insert 5 Empty
+  ]
+  -- Uncomment the following as needed as you implement your tests
+  where
+
+-- lower = unpack . toLower . pack
+-- lengthOverThree = (> 3) . length
+-- x `is_approx` y = abs (x - y) < 0.0000001
+-- g = insert "G" Empty
+-- gb = insert "B" g
+-- gbd = insert "D" gb
+-- tree_52381 = insert 1 $ insert 8 $ insert 3 $ insert 2 $ insert 5 Empty
 
 main =
-    -- You'll have to do some uncommenting here too!
-    let results = map test fixture in do
+  -- You'll have to do some uncommenting here too!
+  let results = map test fixture
+   in do
         putStrLn $ unlines $ map fst results
         failed <- return $ sum $ map snd results
         passed <- return $ length fixture - failed
@@ -76,8 +78,8 @@ main =
         -- passed <- return $ passed + (if shouldBe5 == 5 then 1 else 0)
         -- failed <- return $ failed + (if shouldBe5 == 5 then 0 else 1)
         printf "%d passed, %d failed\n" passed failed
-        where
-            test (message, condition) =
-                ( message ++ ": " ++ (if condition then "SUCCESS" else "FAIL")
-                , if condition then 0 else 1
-                )
+  where
+    test (message, condition) =
+      ( message ++ ": " ++ (if condition then "SUCCESS" else "FAIL"),
+        if condition then 0 else 1
+      )
