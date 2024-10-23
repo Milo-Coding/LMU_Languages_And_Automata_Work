@@ -13,17 +13,16 @@ export function change(amount: bigint): Map<bigint, bigint> {
   return counts
 }
 
-// TODO: ask about <T, U> vs any vs String | number
 export function firstThenApply<T, U>(
   a: Array<T>,
-  p: (s: T) => boolean,
-  f: (x: T) => U
+  pred: (s: T) => boolean,
+  func: (x: T) => U
 ): U | undefined {
   // Use find() to search for the first value from the array that satisfies the predicate
-  const found = a.find((value) => p(value))
+  const found = a.find((value) => pred(value))
 
   // If a value was found, return the result of applying the function, otherwise return undefined
-  return found !== undefined ? f(found) : undefined
+  return found !== undefined ? func(found) : undefined
 }
 
 export function* powersGenerator(base: bigint): Generator<bigint> {
@@ -94,4 +93,98 @@ export function surfaceArea(shape: Shape): number {
   return 4 * Math.PI * Math.pow(radius, 2)
 }
 
-// Write your binary search tree implementation here
+export interface BinarySearchTree<T> {
+  // Define the methods of a Binary Search Tree
+  size(): number
+  insert(value: T): BinarySearchTree<T>
+  contains(value: T): boolean
+  inorder(): Iterable<T>
+  toString(): string
+}
+
+export class Empty<T> implements BinarySearchTree<T> {
+  // An empty tree doesn't contain anything
+  size(): number {
+    return 0
+  }
+  insert(value: T): BinarySearchTree<T> {
+    return new Node(value, new Empty(), new Empty())
+  }
+  contains(value: T): boolean {
+    return false
+  }
+  *inorder(): Iterable<T> {
+    // nothing to yield so nothing to code
+  }
+  toString(): string {
+    return "()"
+  }
+}
+
+export class Node<T> implements BinarySearchTree<T> {
+  private left: BinarySearchTree<T>
+  private right: BinarySearchTree<T>
+  private value: T
+
+  constructor(value: T, left: BinarySearchTree<T>, right: BinarySearchTree<T>) {
+    this.value = value
+    this.left = left
+    this.right = right
+  }
+
+  size(): number {
+    return 1 + this.left.size() + this.right.size()
+  }
+
+  insert(value: T): BinarySearchTree<T> {
+    // if the value to add is less than the current node, it will be inserted along the left branch
+    if (value < this.value) {
+      return new Node(this.value, this.left.insert(value), this.right)
+    }
+
+    // if the value to add is greater than the current node, it will be inserted along the right branch
+    if (value > this.value) {
+      return new Node(this.value, this.left, this.right.insert(value))
+    }
+
+    // if the value to add is already in our tree (or equal to one of those values), no need to add it
+    return new Node(this.value, this.left, this.right)
+  }
+
+  contains(value: T): boolean {
+    if (
+      this.value == value ||
+      this.left.contains(value) ||
+      this.right.contains(value)
+    ) {
+      return true
+    }
+    return false
+  }
+
+  *inorder(): Iterable<T> {
+    // Order is: values of nodes on the left branch, then current node, then right branch for given node
+    if (this.left instanceof Node) {
+      yield* this.left.inorder()
+    }
+    yield this.value
+    if (this.right instanceof Node) {
+      yield* this.right.inorder()
+    }
+  }
+
+  toString(): string {
+    // get the names of each child if they aren't Empty nodes
+    let leftValue = ""
+    if (this.left instanceof Node) {
+      leftValue = this.left.toString()
+    }
+    let rightValue = ""
+    if (this.right instanceof Node) {
+      rightValue = this.right.toString()
+    }
+
+    // return our formatted full name
+    return "(" + leftValue + this.value + rightValue + ")"
+  }
+}
