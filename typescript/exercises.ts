@@ -50,7 +50,6 @@ export async function meaningfulLineCount(filePath: any) {
   return lineCount
 }
 
-// TODO ask about tostring
 export type Shape = Box | Sphere
 
 interface Box {
