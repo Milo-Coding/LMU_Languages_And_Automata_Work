@@ -6,10 +6,10 @@ module Exercises
     Shape (Box, Sphere),
     volume,
     surfaceArea,
-    BST (Empty, Node),
+    BST (Empty),
     size,
     insert,
-    -- contains,
+    contains,
     inorder,
   )
 where
@@ -32,9 +32,9 @@ change amount
         newCounts = Map.insert d count counts
 
 firstThenApply :: [a] -> (a -> Bool) -> (a -> b) -> Maybe b
-firstThenApply xs pred f = find pred xs >>= Just . f -- No good! use F map
+firstThenApply xs pred f = fmap f (find pred xs)
 
-powers :: Integer -> [Integer] -- No good! use Integral TYPECLASS instead
+powers :: Integral a => a -> [a]
 powers base = map (base ^) [0 ..]
 
 meaningfulLineCount :: FilePath -> IO Int
@@ -78,7 +78,9 @@ insert value (Node nodeValue left right)
   | value > nodeValue = Node nodeValue left (insert value right)
   | otherwise = Node nodeValue left right
 
--- contains ::
+contains :: Eq a => a -> BST a -> Bool
+contains _ Empty = False
+contains x (Node value left right) = x == value || contains x left || contains x right
 
 instance (Show a) => Show (BST a) where
   show :: (Show a) => BST a -> String

@@ -46,7 +46,7 @@ fixture =
     ("spheres can be shown", (show $ Sphere 3) == "Sphere 3.0"),
     ("boxes can be shown", (show $ Box 3 1 2) == "Box 3.0 1.0 2.0"),
     ("new tree size is 0", size Empty == 0),
-    -- ("new tree contains nothing", not $ contains 5 Empty),
+    ("new tree contains nothing", not $ contains 5 Empty),
     ("new tree shows as ()", show (Empty :: BST Int) == "()"),
     ("inserting G", show g == "(\"G\")"),
     ("inserting G then B", show gb == "((\"B\")\"G\")"),
