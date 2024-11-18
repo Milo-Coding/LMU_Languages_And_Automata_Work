@@ -23,6 +23,9 @@ stack_response create() {
     s->elements = malloc(INITIAL_CAPACITY * sizeof(char*));
 
     // check out of memory
+    if (s->elements == NULL) {
+        return (stack_response){.code = out_of_memory, .stack = NULL};
+    }
 
     return(stack_response){.code = success, .stack = s};
 }
@@ -32,7 +35,6 @@ int size(const stack s) {
 }
 
 bool is_empty(const stack s) {
-    // TODO
     return size(s) == 0;
 }
 
@@ -45,6 +47,12 @@ response_code push(stack s, char* item) {
     if (is_full(s)) {
         return stack_full;
     }
+
+    // Check if item length exceeds maximum size
+    if (strlen(item) > MAX_ELEMENT_BYTE_SIZE) {
+        return stack_element_too_large;
+    }
+
     // if we need to resize
     if (s->top == s->capacity) {
         // increase the capacity
@@ -59,16 +67,19 @@ response_code push(stack s, char* item) {
             return out_of_memory;
         }
 
-        // make sure new string isn't too big
-        // if (?)
-        // return stack_element_too_large
-
-        // store those values
+        // store updated memory and capacity
         s->elements = new_elements;
         s->capacity = new_capacity;
-        s->elements[s->top++] = strdup(item);
-        return success;
     }
+
+    // allocate memory and add the new string
+    s->elements[s->top] = strdup(item);
+    if (s->elements[s->top] == NULL) {
+        return out_of_memory;
+    }
+
+    s->top++;
+    return success;
 }
 
 string_response pop(stack s) {
@@ -102,5 +113,20 @@ string_response pop(stack s) {
 }
 
 void destroy(stack* s) {
-    // TODO
+    // Nothing to destroy if the stack didn't have enough memory to be created in the first place
+    if (*s == NULL) {
+        return;
+    }
+
+    // Free each element in the stack
+    for (int i = 0; i < (*s)->top; i++) {
+        free((*s)->elements[i]);
+    }
+
+    // Free the elements pointer and stack pointer
+    free((*s)->elements);
+    free(*s);
+
+    // Nullify the pointer to stop memory leaks
+    *s = NULL;  
 }
