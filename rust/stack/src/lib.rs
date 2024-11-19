@@ -4,9 +4,13 @@ pub struct Stack<T> {
 }
 
 impl<T> Stack<T> {
-    // Implement new
+    pub fn new() -> Self {
+        Stack { items: Vec::new() }
+    }
 
-    // Implement push
+    pub fn push(&mut self, item: T) {
+        self.items.push(item);
+    }
 
     // Implement pop
 
@@ -14,7 +18,9 @@ impl<T> Stack<T> {
 
     // Implement is_empty
 
-    // Implement len
+    pub fn len(&self) -> usize {
+        self.items.len()
+    }
 }
 
 #[cfg(test)]
