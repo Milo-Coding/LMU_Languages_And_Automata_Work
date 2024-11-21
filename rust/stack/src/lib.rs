@@ -12,11 +12,17 @@ impl<T> Stack<T> {
         self.items.push(item);
     }
 
-    // Implement pop
+    pub fn pop(&mut self) -> Option<T> {
+        self.items.pop()
+    }
 
-    // Implement peek
+    pub fn peek(&self) -> Option<&T> {
+        self.items.last()
+    }
 
-    // Implement is_empty
+    pub fn is_empty(&self) -> bool {
+        self.items.is_empty()
+    }
 
     pub fn len(&self) -> usize {
         self.items.len()
