@@ -60,22 +60,26 @@ func Customer(name string, wg *sync.WaitGroup) {
 	defer wg.Done()
 
 	log.Println(name, "is hungry")
-	mealsEaten := 0
 
-	for mealsEaten < 5 {
-		log.Println(name, "placed an order")
-		reply := make(chan *Order) // Create a reply channel for the order
+	for mealsEaten := 0; mealsEaten < 5; {
+		order := &Order{
+			id: atomic.AddUint64(&nextId, 1),
+			customer: name,
+			reply: make(chan *Order),
+		}
+		log.Println(name, "placed order", order.id)
 
 		select {
-		case Waiter <- &Order{id: atomic.AddUint64(&nextId, 1), customer: name, reply: reply}:
-			// Order placed successfully, wait for meal
-			order := <-reply // Wait for the meal to be delivered
-			do(5, name, "is eating order", order.id, "prepared by", order.cook)
+		case Waiter <- order:
+			meal := <-order.reply
+			do(2, name, "eating cooked order", meal.id, "prepared by", meal.cook)
 			mealsEaten++
-		case <-time.After(5 * time.Second):
-			do(5, name, "is waiting too long, abandoning order") //order.id
+		case <-time.After(7 * time.Second):
+			do(5, name, "waiting too long, abandoning order", order.id)
 		}
 	}
+
+	log.Println(name, "going home")
 }
 
 func main() {
